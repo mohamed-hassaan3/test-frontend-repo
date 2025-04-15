@@ -162,8 +162,7 @@ export function EmailVerificationOTPForm() {
                 <Button
                   type="submit"
                   size="xl"
-                  className="[&>span]:text-sm"
-                  className="bg-ghred-500 hover:bg-ghred-600 w-full"
+                  className="w-full bg-ghred-500 hover:bg-ghred-600 [&>span]:text-sm"
                 >
                   Verify account
                 </Button>
