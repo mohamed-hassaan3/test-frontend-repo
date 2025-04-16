@@ -1,45 +1,42 @@
 "use client";
-import { loginUser } from "@/actions/auth";
+import { useAuth } from "@/context/AuthContext";
+import useGeolocation from "@/hooks/useGeolocation";
+import { authService } from "@/lib/api";
 import { Button, Card, Checkbox, Label, TextInput } from "flowbite-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 export function LoginForm() {
+
   const [userInput, setUserInput] = useState<Record<string, string>>({});
-  const [error, setError] = useState<string | null>(null);
+  const { login, error } = useAuth();
   const router = useRouter();
+  const { ip } = useGeolocation();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target;
     setUserInput((prev) => ({
       ...prev,
       [name]: value,
+      user_type: "root",
+      ip_address: ip || "127.0.0.1",
     }));
   };
 
-  const handleLogin = async () => {
-    // CALL API POST FROM "actions/auth.ts"
-    const result = await loginUser({
-      email: userInput.email,
-      password: userInput.password,
-      user_type: "root",
-      ip_address: "127.0.0.1",
-    });
-
-    // HANDLE ERROR WITH "detail" or "undefined"
-    if (!result.success) {
-      const message =
-        result.error?.detail ||
-        result.error?.message ||
-        "Login failed. Please check your credentials or try again.";
-      setError(message);
-      console.error("Login error:", message);
-    } else {
-      router.push(`/otp?email=${encodeURIComponent(userInput.email)}`);
-      console.log("Login successful", result.data);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await login(
+        userInput.email,
+        userInput.password,
+        userInput.user_type,
+        userInput.ip_address,
+      );
+      router.push("/otp");
+    } catch (err) {
+      console.error("Login error:", err);
     }
   };
-  console.log(userInput);
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
@@ -54,7 +51,7 @@ export function LoginForm() {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl">
               Sign in to your account
             </h1>
-            <form className="space-y-4 md:space-y-6" action={handleLogin}>
+            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
               <div>
                 <Label htmlFor="email" className="mb-2 block dark:text-white">
                   Your email
