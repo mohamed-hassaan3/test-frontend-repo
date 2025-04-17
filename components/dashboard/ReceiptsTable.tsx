@@ -1,14 +1,10 @@
 "use client";
-import { INVOICES } from "@/lib/data";
-import { Table, Badge, Button } from "flowbite-react";
+import { RECEIPTS } from "@/lib/data";
+import { Table, Badge } from "flowbite-react";
 import { FaFilter } from "react-icons/fa";
 import SearchWithBtn from "../ui/SearchWithBtn";
-import { useDashboard } from "@/context/DashboardContext";
 
-export function InvoiceTable() {
-  // For API DATA
-  // const {loading, data} = useDashboard()
-
+export function ReceiptsTable() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "paid":
@@ -16,7 +12,7 @@ export function InvoiceTable() {
       case "pending":
         return <Badge color="warning">Pending</Badge>;
       case "overdue":
-        return <Badge color="failure">Overdue</Badge>;
+        return <Badge color="failure">Canceled</Badge>;
       default:
         return <Badge color="gray">Unknown</Badge>;
     }
@@ -24,7 +20,7 @@ export function InvoiceTable() {
 
   return (
     <div className="my-16 space-y-8 overflow-x-auto rounded-md bg-white p-4 shadow-xl dark:bg-gray-700">
-      <h1 className="text-2xl font-extrabold dark:text-gray-400">Invoices</h1>
+      <h1 className=" text-2xl font-extrabold dark:text-gray-400">Receipts</h1>
       <div className="flex items-center gap-8">
         <SearchWithBtn />
         <div>
@@ -39,30 +35,30 @@ export function InvoiceTable() {
       </div>
       <Table hoverable>
         <Table.Head>
-          <Table.HeadCell>Invoice ID</Table.HeadCell>
-          <Table.HeadCell>Customer</Table.HeadCell>
-          <Table.HeadCell>Amount</Table.HeadCell>
-          <Table.HeadCell>Date</Table.HeadCell>
-          <Table.HeadCell>Status</Table.HeadCell>
-          <Table.HeadCell>Action</Table.HeadCell>
+          <Table.HeadCell>ID</Table.HeadCell>
+          <Table.HeadCell>CUSTOMER NAME</Table.HeadCell>
+          <Table.HeadCell>DESCRIPTION</Table.HeadCell>
+          <Table.HeadCell>TYPE</Table.HeadCell>
+          <Table.HeadCell>DATE</Table.HeadCell>
+          <Table.HeadCell>AMOUNT</Table.HeadCell>
+          <Table.HeadCell>STATUS</Table.HeadCell>
+          <Table.HeadCell>PAYMENT METHOD</Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-          {INVOICES?.map((invoice) => (
-            <Table.Row key={invoice.id}>
-              <Table.Cell>#{invoice.id}</Table.Cell>
-              <Table.Cell>{invoice.customer}</Table.Cell>
-              <Table.Cell>${invoice.amount}</Table.Cell>
-              <Table.Cell>
-                {new Date(invoice.date).toLocaleString("en-US", {
-                  month: "long",
-                })}
-              </Table.Cell>
+          {RECEIPTS?.map((receipt) => (
+            <Table.Row key={receipt.id}>
+              <Table.Cell>#{receipt.id}</Table.Cell>
+              <Table.Cell>{receipt.customer}</Table.Cell>
+              <Table.Cell>{receipt.description}</Table.Cell>
+              <Table.Cell>{receipt.type}</Table.Cell>
+              <Table.Cell>{receipt.date}</Table.Cell>
+              <Table.Cell>{receipt.amount}</Table.Cell>
               <Table.Cell>
                 <div className="w-fit text-center">
-                  {getStatusBadge(invoice.status)}
+                  {getStatusBadge(receipt.status)}
                 </div>
               </Table.Cell>
-              <Table.Cell>{invoice.date}</Table.Cell>
+              <Table.Cell>{receipt.method}</Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>

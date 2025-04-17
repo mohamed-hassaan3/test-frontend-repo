@@ -1,13 +1,11 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
 import useGeolocation from "@/hooks/useGeolocation";
-import { authService } from "@/lib/api";
 import { Button, Card, Checkbox, Label, TextInput } from "flowbite-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 export function LoginForm() {
-
   const [userInput, setUserInput] = useState<Record<string, string>>({});
   const { login, error } = useAuth();
   const router = useRouter();

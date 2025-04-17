@@ -16,9 +16,6 @@ export const authService = {
   login: async (email: string, password: string, user_type: string, ip_address: string) => {
     return api.post('/api/v1/user/login', { email, password, user_type, ip_address });
   },
-  signup: async () => {
-
-  },
   verifyOtp: async (email: string, otp: string) => {
     return api.post('/api/v1/user/verify-otp', { email, otp });
   },
