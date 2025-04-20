@@ -1,13 +1,14 @@
 import { DashboardProvider } from "@/context/DashboardContext";
 import Header from "@/modules/Header";
-import React from "react";
+import { Spinner } from "flowbite-react";
+import React, { Suspense } from "react";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="dark:bg-gray-700">
       <DashboardProvider>
         <Header />
-        {children}
+        <Suspense fallback={<Spinner />}>{children}</Suspense>
       </DashboardProvider>
     </div>
   );

@@ -101,7 +101,7 @@ const BarChart: React.FC = () => {
     const chart = new ApexCharts(chartRef.current, options);
     chart.render();
 
-    return () => chart.destroy(); 
+    return () => chart.destroy();
   }, []);
 
   return <div ref={chartRef} id="bar-chart" className="w-full" />;

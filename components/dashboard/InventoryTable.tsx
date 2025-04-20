@@ -1,10 +1,14 @@
 "use client";
-import { INVENTORY, RECEIPTS } from "@/lib/data";
+import { INVENTORY } from "@/lib/data";
 import { Table, Badge } from "flowbite-react";
 import { FaFilter } from "react-icons/fa";
 import SearchWithBtn from "../ui/SearchWithBtn";
+import { useDashboard } from "@/context/DashboardContext";
 
 export function InventoryTable() {
+    // For API DATA
+    const {loading, data, error} = useDashboard()
+
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "paid":
@@ -19,7 +23,7 @@ export function InventoryTable() {
   };
 
   return (
-    <div className="my-16 space-y-8 overflow-x-auto rounded-md bg-white p-4 shadow-xl dark:bg-gray-700">
+    <div className="my-16 space-y-8 overflow-x-auto rounded-md bg-white p-4 shadow-xl dark:bg-gray-700 ">
       <h1 className=" text-2xl font-extrabold dark:text-gray-400">Inventory</h1>
       <div className="flex items-center gap-8">
         <SearchWithBtn />
@@ -61,6 +65,31 @@ export function InventoryTable() {
           ))}
         </Table.Body>
       </Table>
+      <div className="flex w-full items-center justify-between px-4">
+        <span className="text-sm text-gray-700 dark:text-gray-400">
+          Showing
+          <span className="px-1 font-semibold text-gray-900 dark:text-white">
+            1
+          </span>
+          to
+          <span className="px-1 font-semibold text-gray-900 dark:text-white">
+            10
+          </span>
+          of
+          <span className="px-1 font-semibold text-gray-900 dark:text-white">
+            100
+          </span>
+          Entries
+        </span>
+        <div className="xs:mt-0 mt-2 inline-flex">
+          <button className="flex h-8 items-center justify-center rounded-s bg-gray-800 px-3 text-sm font-medium text-white hover:bg-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            Prev
+          </button>
+          <button className="flex h-8 items-center justify-center rounded-e border-0 border-s border-gray-700 bg-gray-800 px-3 text-sm font-medium text-white hover:bg-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            Next
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

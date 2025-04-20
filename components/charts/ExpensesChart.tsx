@@ -15,6 +15,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { useDashboard } from "@/context/DashboardContext";
 const chartData = [
   { month: "January", desktop: 186 },
   { month: "February", desktop: 305 },
@@ -32,8 +33,11 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function ExpenseChart() {
+    // FOR API DATA
+    const { error, loading, data } = useDashboard();
+
   return (
-    <Card>
+    <Card className="h-auto w-auto">
       <CardHeader>
         <CardDescription>
           Showing total Expenses for the last 6 months

@@ -1,8 +1,12 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { useDashboard } from "@/context/DashboardContext";
 import { ShoppingCart, FileText, Tag } from "lucide-react";
 
 const FinanceCard = () => {
-  const data = [
+    // FOR API DATA
+    const { error, loading, data } = useDashboard();
+
+  const FinanceData = [
     {
       label: "Profit",
       value: "76%",
@@ -27,11 +31,11 @@ const FinanceCard = () => {
   ];
 
   return (
-    <Card className="h-[250px] flex flex-col justify-between">
+    <Card className="min-w-fit w-auto flex flex-col justify-between">
       <CardContent className="p-4 flex flex-col justify-between h-full">
-        {/* Header Section */}
+
         <div className="flex justify-between">
-          {data.map((item, index) => (
+          {FinanceData.map((item, index) => (
             <div key={index} className="text-center space-y-1">
               <div className="flex items-center justify-center gap-1 text-sm text-gray-500">
                 {item.icon}
@@ -43,9 +47,8 @@ const FinanceCard = () => {
           ))}
         </div>
 
-        {/* Progress Bar */}
         <div className="flex w-full h-3 rounded-md overflow-hidden my-2">
-          {data.map((item, index) => (
+          {FinanceData.map((item, index) => (
             <div
               key={index}
               className={`${item.color}`}
@@ -54,9 +57,8 @@ const FinanceCard = () => {
           ))}
         </div>
 
-        {/* Legend */}
         <div className="flex justify-center gap-6 text-sm text-gray-500">
-          {data.map((item, index) => (
+          {FinanceData.map((item, index) => (
             <div key={index} className="flex items-center gap-2">
               <span className={`w-3 h-3 rounded-full ${item.color}`} />
               {item.label}

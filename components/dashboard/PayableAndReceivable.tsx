@@ -1,7 +1,6 @@
 "use client"
 
 import { Bar, BarChart, CartesianGrid, Rectangle, XAxis } from "recharts"
-
 import {
   Card,
   CardContent,
@@ -15,6 +14,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import { useDashboard } from "@/context/DashboardContext"
 const chartData = [
   { browser: "firefox", visitors: 275, fill: "var(--color-firefox)" },
   { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
@@ -34,6 +34,9 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function PayableAndReceivable() {
+    // For API DATA
+    const {loading, data, error} = useDashboard()
+
   return (
     <Card>
       <CardHeader>

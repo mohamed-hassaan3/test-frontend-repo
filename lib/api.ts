@@ -19,6 +19,7 @@ export const authService = {
   verifyOtp: async (email: string, otp: string) => {
     return api.post('/api/v1/user/verify-otp', { email, otp });
   },
+  
 };
 
 export const dashboardService = {

@@ -1,4 +1,5 @@
 
+// TABLES DATA
 export const INVOICES = [
     {
       id: "INV-001",
@@ -139,3 +140,46 @@ export const INVOICES = [
     },
   ];
   
+  // STATCARD DATA 
+  export const stats = [
+    {
+      title: "Outstanding Invoices",
+      value: "475",
+      growth: "+1.4%",
+      since: "vs last day",
+    },
+    {
+      title: "Average Collection Period",
+      value: "04:14",
+      growth: "+1.4%",
+      since: "vs last month",
+    },
+    {
+      title: "Gross Profit Margin",
+      value: "657.8k",
+      growth: "+1.4%",
+      since: "vs last month",
+    },
+    {
+      title: "Inventory Turnover",
+      value: "04:14",
+      growth: "+1.4%",
+      since: "vs last month",
+    },
+    {
+      title: "Online Payments",
+      value: "40%",
+      growth: "+1.4%",
+      since: "vs last month",
+    },
+  ];
+
+  // REVENUE CHART
+  export const chartData = [
+    { month: "January", desktop: 186 },
+    { month: "February", desktop: 305 },
+    { month: "March", desktop: 237 },
+    { month: "April", desktop: 73 },
+    { month: "May", desktop: 209 },
+    { month: "June", desktop: 214 },
+  ];

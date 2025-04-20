@@ -15,14 +15,10 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
-];
+import { useDashboard } from "@/context/DashboardContext";
+import { chartData } from "@/lib/data";
+
+
 
 const chartConfig = {
   desktop: {
@@ -32,6 +28,9 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function RevenueChart() {
+  // FOR API DATA
+  const { error, loading, data } = useDashboard();
+
   return (
     <Card className="w-auto">
       <CardHeader>

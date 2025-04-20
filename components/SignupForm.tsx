@@ -6,6 +6,7 @@ import axios from "axios";
 export function SignupForm() {
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [message, setMessage] = useState<string>("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -18,6 +19,7 @@ export function SignupForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setMessage("");
+    setLoading(true);
 
     try {
       const response = await axios.post(
@@ -35,13 +37,16 @@ export function SignupForm() {
           headers: {
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_BACKEND_API_V1_KEY}`,
           },
-        }
+        },
       );
-      setMessage("✅ User created successfully!");
+      setMessage("User created successfully!");
+      return response.data;
     } catch (error: any) {
       setMessage(
-        error?.response?.data?.detail || "❌ Something went wrong during signup."
+        error?.response?.data?.detail || "Something went wrong during signup.",
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -49,6 +54,11 @@ export function SignupForm() {
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="mx-auto flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0">
         <img className="mb-6 mr-2" src="./gh_full_logo.svg" alt="logo" />
+        {message && (
+          <p className="mt-2 text-center text-sm text-red-500 dark:text-red-400">
+            {message}
+          </p>
+        )}
         <div className="w-full rounded-lg bg-white shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0">
           <Card className="shadow-none">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl">
@@ -56,7 +66,10 @@ export function SignupForm() {
             </h1>
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
               <div>
-                <Label htmlFor="first_name" className="mb-2 block dark:text-white">
+                <Label
+                  htmlFor="first_name"
+                  className="mb-2 block dark:text-white"
+                >
                   First Name
                 </Label>
                 <TextInput
@@ -67,7 +80,10 @@ export function SignupForm() {
                 />
               </div>
               <div>
-                <Label htmlFor="last_name" className="mb-2 block dark:text-white">
+                <Label
+                  htmlFor="last_name"
+                  className="mb-2 block dark:text-white"
+                >
                   Last Name
                 </Label>
                 <TextInput
@@ -90,7 +106,10 @@ export function SignupForm() {
                 />
               </div>
               <div>
-                <Label htmlFor="password" className="mb-2 block dark:text-white">
+                <Label
+                  htmlFor="password"
+                  className="mb-2 block dark:text-white"
+                >
                   Password
                 </Label>
                 <TextInput
@@ -101,14 +120,12 @@ export function SignupForm() {
                   onChange={handleChange}
                 />
               </div>
-              <Button type="submit" className="w-full bg-ghred-500 hover:bg-ghred-600">
-                Sign up
+              <Button
+                type="submit"
+                className={`${loading ? "cursor-not-allowed" : ""} w-full bg-ghred-500 hover:bg-ghred-600`}
+              >
+                {loading ? "Sign up..." : "Sign up"}
               </Button>
-              {message && (
-                <p className="mt-2 text-sm text-center text-red-500 dark:text-red-400">
-                  {message}
-                </p>
-              )}
             </form>
           </Card>
         </div>
@@ -117,8 +134,7 @@ export function SignupForm() {
   );
 }
 
-
-// ANOTHER APPROACH 
+// ANOTHER APPROACH
 
 /* "use client";
 import React, { useState } from "react";

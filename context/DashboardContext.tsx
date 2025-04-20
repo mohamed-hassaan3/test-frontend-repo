@@ -1,23 +1,38 @@
-"use client"
-import { dashboardService } from '@/lib/api';
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+"use client";
+import { dashboardService } from "@/lib/api";
+import { AxiosError } from "axios";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
 
 const DashboardContext = createContext<DashboardContextProps>({
   data: null,
   loading: true,
+  error: null
 });
 
 export const DashboardProvider = ({ children }: { children: ReactNode }) => {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await dashboardService.getAccountantData();
         setData(response.data);
-      } catch (error) {
-        console.error("Failed to fetch dashboard data:", error);
+      } catch (err) {
+        if (err instanceof AxiosError) {
+          setError(err.response?.data.detail || err.message);
+          console.error(
+            "Failed to fetch dashboard data:",
+            err.response?.data.detail,
+          );
+        }
       } finally {
         setLoading(false);
       }
@@ -26,7 +41,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <DashboardContext.Provider value={{ data, loading }}>
+    <DashboardContext.Provider value={{ data, loading, error }}>
       {children}
     </DashboardContext.Provider>
   );

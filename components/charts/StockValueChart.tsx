@@ -15,6 +15,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { useDashboard } from "@/context/DashboardContext";
 const chartData = [
   { month: "January", desktop: 186 },
   { month: "February", desktop: 305 },
@@ -32,8 +33,11 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function StockValueChart() {
+    // FOR API DATA
+    const { error, loading, data } = useDashboard();
+
   return (
-    <Card>
+    <Card className="h-auto w-auto">
       <CardHeader>
         <CardDescription>Showing total Stock val for the last 6 months</CardDescription>
         <CardTitle>$152.8</CardTitle>

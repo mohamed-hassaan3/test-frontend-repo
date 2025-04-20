@@ -1,50 +1,18 @@
-// context/AuthContext.tsx
 "use client";
 
 import { createContext, useContext, useState, ReactNode } from "react";
 import { authService } from "../lib/api";
 import { useRouter } from "next/navigation";
 import { AxiosError } from "axios";
+import { AuthContextType } from "@/types/auth";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState(null);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false)
   const router = useRouter();
-
-  const signup = async (userData: SignupPayload) => {
-    try {
-      setError(null);
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/user/signup`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_BACKEND_API_V1_KEY}`,
-          },
-          body: JSON.stringify(userData),
-        },
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        return {
-          success: false,
-          error: data.message || "Signup failed",
-        };
-      }
-
-      return { success: true };
-    } catch (err: any) {
-      return {
-        success: false,
-        error: err.message || "Failed to create account",
-      };
-    }
-  };
 
   const login = async (
     email: string,
@@ -53,6 +21,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     ip_address: string,
   ) => {
     try {
+      setLoading(true)
       setError(null);
       const response = await authService.login(
         email,
@@ -71,6 +40,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         );
       }
       throw err;
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -82,6 +53,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.removeItem("otpEmail");
       router.push("/dashboard");
     } catch (err: any) {
+      setLoading(false)
       setError(err.response?.data?.message || "OTP verification failed");
       throw err;
     }
@@ -94,7 +66,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, login, signup, verifyOtp, logout, error }}
+      value={{ user, login, verifyOtp, logout, error, loading }}
     >
       {children}
     </AuthContext.Provider>

@@ -1,7 +1,11 @@
 import React from "react";
 import ProfitChart from "../charts/ProfitChart";
+import { useDashboard } from "@/context/DashboardContext";
 
 const ProfitFinanial = () => {
+    // For API DATA
+    const {loading, data, error} = useDashboard()
+
   return (
     <article className="w-full rounded-lg bg-white p-4 shadow-sm dark:bg-gray-800 md:p-6">
       <div className="flex justify-between border-b border-gray-200 pb-3 dark:border-gray-700">
@@ -61,7 +65,6 @@ const ProfitFinanial = () => {
           <ProfitChart />
         </div>
         <div className="flex items-center justify-between pt-5">
-          {/* ButtonButton */}
           <button
             id="dropdownDefaultButton"
             data-dropdown-toggle="lastDaysdropdown"

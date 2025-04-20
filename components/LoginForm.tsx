@@ -7,7 +7,7 @@ import React, { useState } from "react";
 
 export function LoginForm() {
   const [userInput, setUserInput] = useState<Record<string, string>>({});
-  const { login, error } = useAuth();
+  const { login, error, loading } = useAuth();
   const router = useRouter();
   const { ip } = useGeolocation();
 
@@ -106,9 +106,9 @@ export function LoginForm() {
               </div>
               <Button
                 type="submit"
-                className="w-full bg-ghred-500 hover:bg-ghred-600"
+                className={`${loading ? "cursor-not-allowed" : ""} w-full bg-ghred-500 hover:bg-ghred-600`}
               >
-                Sign in
+                {loading ? "Sign in..." : "Sign in"}
               </Button>
               <p className="text-sm font-medium text-gray-900 dark:text-white">
                 Don’t have an account yet?&nbsp;

@@ -16,6 +16,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ChartConfig, ChartContainer } from "@/components/ui/chart";
+import { useDashboard } from "@/context/DashboardContext";
 const chartData = [
   { browser: "safari", visitors: 20, fill: "var(--color-safari)" },
 ];
@@ -31,6 +32,9 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function MonthlyTarget() {
+    // For API DATA
+    const {loading, data, error} = useDashboard()
+  
   return (
     <Card className="flex flex-col">
       <CardHeader className=" pb-0">
